@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+    <title>Prueba técnica</title>
+</head>
+<body>
+    <div class="container">
+        <div class="btn-group" style="margin-top: 50px;">
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="tarea1"
+                onclick="enterBotonesEjercicios(1)"
+            >
+                Ejercicio 1
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="tarea2"
+                onclick="enterBotonesEjercicios(2)"
+            >
+                Ejercicio 2
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="tarea3"
+                onclick="enterBotonesEjercicios(3)"
+            >
+                Ejercicio 3
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="tarea4"
+                onclick="enterBotonesEjercicios(4)"
+            >
+                Ejercicio 4
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="tarea5"
+                onclick="enterBotonesEjercicios(5)"
+            >
+                Ejercicio 5
+            </button>
+        </div>
+        <div 
+            id="container-ejercicio-1"  
+            style="display: none; margin: 15px;"
+        >
+            <label class="col-sm-2 col-form-label">Ingrese año:</label>
+            <input 
+                id="anno"
+                type="year" 
+                maxlength="4"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            >
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="bisiesto" 
+            >
+                Verificar
+            </button>
+            <span id="resultadoAno" style="margin-left: 15px;"></span>
+        </div>
+        <div 
+            id="container-ejercicio-2"  
+            style="display: none; margin: 15px;"
+        >
+            <label class="col-sm-2 col-form-label">Ingrese Filas:</label>
+            <input 
+                id="filas"
+                type="text" 
+                maxlength="4"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            >
+            <br>
+            <label class="col-sm-2 col-form-label">Ingrese Columnas:</label>
+            <input 
+                id="columnas"
+                type="text" 
+                maxlength="4"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            >
+            <br>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="generarTabla" 
+            >
+                Generar tabla
+            </button>
+            <br>
+            <div id="resultadoTabla" style="margin: 15px; display: none;">
+                <table class="table table-bordered">
+                    <tbody id="tabla2">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div 
+            id="container-ejercicio-3"  
+            style="display: none; margin: 15px;"
+        >
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="generarNumeros" 
+            >
+                Generar 100 números
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="ordenar" 
+            >
+                Ordenar
+            </button>
+            <br>
+            <span>Array generado</span>
+            <br>
+            <span id="resultadoArray"></span>
+            <br>
+            <span>Array Ordenado</span>
+            <br>
+            <span id="resultadoArrayOrdenado"></span>
+        </div>
+        <div 
+            id="container-ejercicio-4"  
+            style="display: none; margin: 15px;"
+        >
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="generarLetras" 
+            >
+                Generar 2 arreglos
+            </button>
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="generarResultados" 
+            >
+                Generar resultados
+            </button>
+            <br>
+            <span>Array's generados</span>
+            <br>
+            <span id="resultadoArray2"></span>
+            <br>
+            <span>Resultados</span>
+            <br>
+            <span id="resultadoArrayOrdenado2"></span>
+        </div>
+        <div 
+            id="container-ejercicio-5"  
+            style="display: none; margin: 15px;"
+        >
+            <button 
+                type="button" 
+                class="btn btn-primary"
+                id="consumirApi" 
+            >
+                consumir Api
+            </button>
+            <div id="resultadoTabla2" style="margin: 15px; display: none;">
+                <table class="table table-bordered">
+                    <tbody id="tablaApi">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+function esBisiesto(year) {
+  return (year % 400 === 0) ? true : (year % 100 === 0) ? false : year % 4 === 0;
+}
+
+$('#bisiesto').click(function() {
+    let ano = $("#anno").val();
+
+    if (esBisiesto(ano)) {
+        document.getElementById('resultadoAno').innerHTML = "Es bisiesto";
+    } else {
+        document.getElementById('resultadoAno').innerHTML = "No es bisiesto";
+    }
+});
+
+$('#generarTabla').click(function() {
+    let filas    = $("#filas").val();
+    let columnas = $("#columnas").val();
+
+    let d = '<tbody>';
+
+    for (let i = 1; i < filas; i++) {
+        d += '<tr>';
+
+        for (let j = 1; j < columnas; j++) {
+            d += '<td></td>';
+        }
+
+        d += '</tr>';
+    }
+
+    d += '</tbody>';
+
+    $("#tabla2").replaceWith(d);
+    document.getElementById('resultadoTabla').style.display = 'block';
+});
+
+let miarray = '';
+let miarray2 = '';
+let miarray3 = '';
+
+$('#generarNumeros').click(function() {
+    miarray = Array.from({length: 100}, () => Math.floor(Math.random() * 100));
+    
+    let d = '';
+
+    miarray.forEach(item => {
+        d += item + ' ';
+    });
+
+    document.getElementById('resultadoArray').innerHTML = d;
+});
+
+$('#ordenar').click(function() {
+    let temporal = 0;
+
+    for (let i = 0; i < miarray.length; i++) {
+        for (let j = 1; j < (miarray.length - i); j++) {
+            if (miarray[j - 1] > miarray[j]) {
+                temporal = miarray[j - 1];
+                miarray[j - 1] = miarray[j];
+                miarray[j] = temporal;
+            }
+        }
+    }
+
+    let d = '';
+
+    miarray.forEach(item => {
+        d += item + ' ';
+    });
+
+    document.getElementById('resultadoArrayOrdenado').innerHTML = d;
+});
+
+$('#generarLetras').click(function() {
+    let arr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    let idvalue = ''; 
+    let n = 10; 
+
+
+    miarray2 = '';
+    miarray3 = '';
+
+    for (var i = 0; i < n; i++) {
+        miarray2 = [...miarray2, arr[Math.floor(Math.random() * 26)]];
+        miarray3 = [...miarray3, arr[Math.floor(Math.random() * 26)]];
+    }
+
+    let d = 'Array A: ';
+
+    miarray2.forEach(item => {
+        d += item + '  ';
+    });
+
+    d += 'Array B:    ';
+
+    miarray3.forEach(item => {
+        d += item + ' ';
+    });
+
+    document.getElementById('resultadoArray2').innerHTML = d;
+});
+
+function removeDuplicates(inArray){
+    var arr = inArray.concat()
+    
+    for (var i = 0; i < arr.length; ++i) { 
+        for(var j = i + 1; j < arr.length; ++j) { 
+            if (arr[i] === arr[j]) {
+                arr.splice(j, 1);
+            }
+        }
+    }
+
+    return arr;
+}
+
+$('#generarResultados').click(function() {
+    let d = 'Union A-B: ';
+
+    let arrayUnion = miarray2.concat(miarray3);
+    arrayUnion = removeDuplicates(arrayUnion);
+
+    arrayUnion.forEach(item => {
+        d += item + '  ';
+    });
+
+    d += '<br> Interseccion A-B: ';
+
+    let arrayInterseccion = miarray2.filter(({ e }) => miarray3.indexOf(e) != -1);
+
+    arrayInterseccion.forEach(item => {
+        d += item + '  ';
+    });
+
+
+    d += '<br> Diferencia A-B: ';
+
+    let arrayDiferencia = miarray2.filter(({ e }) => miarray3.indexOf(e) == -1);
+
+    arrayDiferencia.forEach(item => {
+        d += item + '  ';
+    });
+
+    d += '<br> Diferencia simetrica A-B: ';
+
+    let arrayDiferencia1 = miarray2.filter(({ e }) => miarray3.indexOf(e) == -1);
+    let arrayDiferencia2 = miarray3.filter((e) => miarray2.indexOf(e) == -1);
+    let arrayDiferenciaSimetrica = arrayDiferencia1.concat(arrayDiferencia2);
+
+    arrayDiferenciaSimetrica.forEach(item => {
+        d += item + '  ';
+    });
+
+    document.getElementById('resultadoArrayOrdenado2').innerHTML = d;
+});
+
+$('#consumirApi').click(function() {
+    let jsonCambio = '';
+
+    let settings = {
+        "url": "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718,SP74665,SF61745,SF60634/datos/2022-03-13/2022-03-18?token=8942068268c9f8f80dc516e6d360ab89ae52299a7b4414b491b10ff6ca9bdb1c",
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type':'application/json',
+            "Accept": "application/json",
+        },
+        "dataType": 'jsonp',
+        "async": true,
+    };
+
+    $.ajax(settings)
+    .done(function (response) {
+        jsonCambio = JSON.parse(JSON.stringify(response.bmx.series));
+
+        let tablita = '<tbody>';
+
+        for (let serie2 of jsonCambio) {
+            tablita 
+                +=  '<tr>' + 
+                '<td align="left">' + serie2.titulo + '</td>'+
+                '<td align="left">' + serie2.idSerie + '</td>'+
+                '<td align="center">'       
+                ;
+
+                if (serie2.datos) {
+                    for (let serie3 in serie2.datos) {
+                        tablita 
+                            +=  '<tr>' + 
+                                '<td align="center"> Fecha: ' + serie2.datos[serie3].fecha + '</td>'+
+                                '<td align="center"> Dato: ' + serie2.datos[serie3].dato + '</td>'+
+                            + '</tr>' 
+                            ;
+                    }
+                }
+            
+
+            tablita += '</td></tr></tbody>'; 
+        }
+
+        $("#tablaApi").replaceWith(tablita);
+
+        document.getElementById('resultadoTabla2').style.display = 'block';
+    });
+
+});
+
+function enterBotonesEjercicios(opcion) {
+    document.getElementById('container-ejercicio-1').style.display = 'none';
+    document.getElementById('container-ejercicio-2').style.display = 'none';
+    document.getElementById('container-ejercicio-3').style.display = 'none';
+    document.getElementById('container-ejercicio-4').style.display = 'none';
+    document.getElementById('container-ejercicio-5').style.display = 'none';
+
+    switch (opcion) {
+        case 1:
+            document.getElementById('container-ejercicio-1').style.display = 'block';
+            break;
+        case 2:
+            document.getElementById('container-ejercicio-2').style.display = 'block';
+            break;
+        case 3:
+            document.getElementById('container-ejercicio-3').style.display = 'block';
+            break;
+        case 4:
+            document.getElementById('container-ejercicio-4').style.display = 'block';
+            break;
+        case 5:
+            document.getElementById('container-ejercicio-5').style.display = 'block';
+            break;
+        default:
+            break;
+    }
+}
+
+</script>
